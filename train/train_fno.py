@@ -275,7 +275,7 @@ def get_default_config():
         'num_epochs': 100,
         'learning_rate': 1e-3,
         'loss_type': 'relative_l2',  # 'mse' or 'relative_l2'
-        'modes': 32,
+        'modes': 16,
         'width': 64,
         'num_layers': 4,
         'padding': 0,

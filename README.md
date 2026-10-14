@@ -1,6 +1,6 @@
 # Frequency Bias and OOD Generalization in Neural Operators
 
-This repository contains the code for the paper "Frequency Bias and OOD Generalization in Neural Operators under a Variable-Coefficient Wave Equation".
+This repository contains the code for the research project "Frequency Bias and OOD Generalization in Neural Operators under a Variable-Coefficient Wave Equation".
 
 The project studies terminal-state operator learning for the one-dimensional conservative wave equation:
 
@@ -72,13 +72,19 @@ The full workflow, including solver checks, data generation, model training, eva
 python run_workflow.py
 ```
 
+## Configuration Notes
+
+The main paper configuration uses **16 retained Fourier modes** for FNO. `train/train_fno.py`, `configs/train_fno.yaml`, and `run_workflow.py` are aligned to this setting. The 8-mode and 32-mode JSON files are separate ablation configurations.
+
+`configs/problem.yaml` and `configs/data.yaml` document the problem/data specification for reference; the current dataset-generation entry point keeps the corresponding sampling values in the Python generation code rather than loading those two YAML files dynamically.
+
 ## Generated Artifacts
 
-Generated datasets (`data/*_dataset.npz`), checkpoints (`results/checkpoints/`), evaluation files, and figures are not committed to GitHub by default. For exact agreement with the submitted paper, use the frozen artifact bundle associated with the submission. The source code can regenerate the pipeline, but full retraining may not be bitwise identical across hardware, CUDA, PyTorch versions, and timing conditions.
+Generated datasets (`data/*_dataset.npz`), checkpoints (`results/checkpoints/`), evaluation files, and figures are not committed to GitHub by default. For exact agreement with the reported results, use the frozen artifact bundle associated with the original experiment snapshot. The source code can regenerate the pipeline, but full retraining may not be bitwise identical across hardware, CUDA, PyTorch versions, and timing conditions.
 
 The intended reproducibility levels are:
 
-- Frozen paper reproduction: use the submitted artifact bundle and verify it with `tools/verify_artifacts.py`.
+- Frozen-result reproduction: use the original artifact bundle and verify it with `tools/verify_artifacts.py`.
 - Fresh pipeline run: regenerate data, checkpoints, evaluations, and figures from source. This should reproduce the experimental procedure and trends, but training and timing may differ slightly across systems.
 
 To verify a downloaded artifact bundle:
@@ -107,6 +113,12 @@ Run the solver checks:
 
 ```bash
 python solver/test_solver.py
+```
+
+Run the lightweight sampling/model smoke tests:
+
+```bash
+python -m unittest tests.test_smoke
 ```
 
 Run a syntax check over the main code:
